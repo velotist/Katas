@@ -76,6 +76,7 @@ namespace Katas
             //Console.WriteLine(AllMethods.AlphabetIndex("Wow, does that work?"));
             //Console.WriteLine(AllMethods.Trouble(888, 888));
             //Console.WriteLine(AllMethods.IsValidPhoneNumber("-123) 323-4455"));
+            //Console.WriteLine(AllMethods.LongestCommonEnding("pitiful", "beautiful"));
             
         }
     }

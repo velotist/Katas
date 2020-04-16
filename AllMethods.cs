@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Katas
@@ -704,5 +705,20 @@ namespace Katas
             return true;
         }
 
+        public static string LongestCommonEnding(string str1, string str2)
+        {
+            while (str2.Length > 1)
+            {
+                if (!str1.Contains(str2))
+                {
+                    str2 = str2.Remove(0, 1);
+                }
+                else return str2;
+            }
+
+            return "";
+        }
+
+       
     }
 }
