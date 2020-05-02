@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Katas
 {
@@ -719,6 +722,363 @@ namespace Katas
             return "";
         }
 
-       
+        public static int ReversedBinaryInteger(int num)
+        {
+            string binary = Convert.ToString(num, 2);
+            char[] characters = binary.ToCharArray();
+
+            Array.Reverse(characters);
+
+            return Convert.ToInt32(new string(characters), 2);
+        }
+
+        public static string ConvertTime(string time)
+        {
+            if (time.Contains("pm"))
+            {
+                time = time.Replace(" pm", "");
+                string[] blocksInTime = time.Split(':');
+                int hours = Convert.ToInt32(blocksInTime[0]);
+                hours += 12;
+                return hours.ToString() + ":" + blocksInTime[1];
+            }
+
+            else if (time.Contains("am"))
+            {
+                time = time.Replace(" am", "");
+                string[] blocksInTime = time.Split(':');
+                int hours = Convert.ToInt32(blocksInTime[0]);
+                if (hours == 12)
+                    hours = 0;
+                return hours.ToString() + ":" + blocksInTime[1];
+            }
+
+            else if (!time.Contains("pm") || !time.Contains("am"))
+            {
+                string[] blocksInTime = time.Split(':');
+                int hours = Convert.ToInt32(blocksInTime[0]);
+                if (hours > 12)
+                {
+                    hours -= 12;
+                    return hours.ToString() + ":" + blocksInTime[1] + " pm";
+                }
+
+                return hours.ToString() + ":" + blocksInTime[1] + " am";
+            }
+
+            return "";
+        }
+
+        public static bool IsParselTongue(string sentence)
+        {
+            string[] words = sentence.Split(' ');
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i].ToLower().Contains('s'))
+                    if (!words[i].ToLower().Contains("ss"))
+                        return false;
+            }
+
+            return true;
+        }
+
+        public static string Mangle(string str)
+        {
+            char[] characters = str.ToCharArray();
+
+            for (int i = 0; i < characters.Length; i++)
+            {
+                if (char.IsLetter(characters[i]))
+                {
+                    if (characters[i] == 'Z')
+                        characters[i] = 'A';
+                    else if (characters[i] == 'z')
+                        characters[i] = 'a';
+                    else
+                        characters[i] = (char)(Convert.ToInt32(characters[i]) + 1);
+                }
+            }
+
+            for (int i = 0; i < characters.Length; i++)
+            {
+                if (char.ToLower(characters[i]) == 'a' || char.ToLower(characters[i]) == 'e' || char.ToLower(characters[i]) == 'i' || char.ToLower(characters[i]) == 'o' || char.ToLower(characters[i]) == 'o' || char.ToLower(characters[i]) == 'u')
+                    characters[i] = char.ToUpper(characters[i]);
+            }
+
+            return new string(characters);
+        }
+
+        public static int[] RemoveSmallest(int[] values)
+        {
+            if (values.Length == 0)
+                return values;
+
+            List<int> intList = ((int[])values).ToList();
+
+            intList.RemoveAt(intList.IndexOf(intList.Min()));
+
+            return intList.ToArray();
+        }
+
+        public static string TextToNumberBinary(string str)
+        {
+            string[] words = str.Split(' ');
+
+            if (words.Length < 8)
+                return "";
+
+            string binary = "";
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i].ToLower().Equals("one"))
+                    binary += "1";
+                if (words[i].ToLower().Equals("zero"))
+                    binary += "0";
+            }
+
+            if (binary.Length < 8)
+                return "";
+
+            if (binary.Length % 8 != 0)
+            {
+                var temp = binary.Length - (binary.Length % 8);
+                binary = binary.Remove(temp);
+            }
+
+            return binary;
+        }
+
+        public static string ToSnakeCase(string str)
+        {
+            string result = "";
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (char.IsUpper(str[i]))
+                {
+                    result += '_' + str[i].ToString().ToLower();
+                    continue;
+                }
+                result += str[i];
+            }
+
+            return result;
+        }
+        public static string ToCamelCase(string str)
+        {
+            string result = "";
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == '_')
+                {
+                    i++;
+                    result += str[i].ToString().ToUpper();
+                    continue;
+                }
+                result += str[i];
+            }
+
+            return result;
+        }
+
+        public static double AverageWordLength(string str)
+        {
+            double result = 0.0d;
+            str = Regex.Replace(str, @"[^\w\s]", "");
+
+            string[] words = str.Split(' ');
+
+            foreach (var word in words)
+            {
+                result += word.Length;
+            }
+
+            return Math.Round(result / words.Length, 2);
+        }
+
+        public static string WeekdayRobWasBornInDutch(int year, int month, int day)
+        {
+            DateTime dateValue = new DateTime(year, month, day);
+
+            return dateValue.ToString("dddd",
+                        new CultureInfo("nl-NL"));
+        }
+
+        public static bool IsValidIP(string IP)
+        {
+            if (IP.Contains(" "))
+                return false;
+
+            foreach (var character in IP)
+            {
+                if (char.IsLetter(character))
+                    return false;
+            }
+
+            string[] addresses = IP.Split('.');
+
+            if (addresses.Length != 4)
+                return false;
+
+            foreach (var address in addresses)
+            {
+                if (address.StartsWith("0") && address.Length > 1)
+                    return false;
+
+                if (int.Parse(address) < 0 || int.Parse(address) > 255)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static int FirstIndex(string hexString, string needle)
+        {
+            string[] hex = hexString.Split(' ');
+            int[] ascii = new int[needle.Length];
+            int i = 0;
+
+            foreach (var item in needle)
+            {
+                ascii[i++] = (int)item;
+            }
+
+            string[] hexToSearch = new string[needle.Length];
+            i = 0;
+
+            foreach (var item in ascii)
+            {
+                hexToSearch[i++] = String.Format("{0:x}", item);
+            }
+
+            int indexOfNeedle = 0;
+            int temp = 0;
+
+            for (int j = 0; j < hex.Length; j++)
+            {
+                if (hex[j].Equals(hexToSearch[0]))
+                {
+                    indexOfNeedle = j;
+
+                    for (int k = 0; k < hexToSearch.Length; k++)
+                    {
+                        if (!(hexToSearch[k].Equals(hex[j++])))
+                            break;
+                        temp = k;
+                    }
+
+                    if (temp == hexToSearch.Length - 1)
+                        break;
+                }
+            }
+
+            return indexOfNeedle;
+        }
+
+        public static bool ValidatePassword(string password)
+        {
+            string pattern = @"^[]a-zA-Z0-9!@#$%^&*()+=_-{}[:;”’?<>,.]+$";
+            var regexItem = new Regex(pattern);
+
+            if (!regexItem.IsMatch(password))
+                return false;
+
+            if (password == null || password.Length < 6 || password.Length > 24)
+                return false;
+
+            return true;
+        }
+
+        public static string LandscapeType(int[] arr)
+        {
+            int val = -1;
+            string str = "";
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                int old_val = val;
+                if (arr[i] > arr[i + 1])
+                    val = 0;
+                if (arr[i] < arr[i + 1])
+                    val = 1;
+                if (val != old_val)
+                    str += val.ToString();
+            }
+            if (str == "10")
+                return "mountain";
+            else if (str == "01")
+                return "valley";
+            else return "neither";
+        }
+
+        public static int Remainder(int x, int y)
+        {
+            return x % y;
+        }
+
+        public static bool ValidName(string name)
+        {
+            string[] array = name.Split(' ');
+
+            if (array.Length < 2)
+                return false;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i].Length < 2)
+                    return false;
+                if (array[i].Length == 2)
+                    if (array[i][1] != '.' && char.IsUpper(array[i][0]) == false)
+                        return false;
+                if (char.IsUpper(array[i][0]) == false)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public static string TranslateWord(string word)
+        {
+            int indexOfVowel = 0;
+
+            if (char.ToLower(word[0]) == 'a' || char.ToLower(word[0]) == 'e' || char.ToLower(word[0]) == 'i' || char.ToLower(word[0]) == 'o' || char.ToLower(word[0]) == 'u')
+                return word + "yay";
+
+            for (int i = 0; i < word.Length; i++)
+            {
+                if (word[i] == 'a' || word[i] == 'e' || word[i] == 'i' || word[i] == 'o' || word[i] == 'u')
+                {
+                    indexOfVowel = i;
+                    break;
+                }
+            }
+
+            string frontOfWord = word.Substring(0, 0 + indexOfVowel);
+            string termToAdd = (frontOfWord.ToLower() + "ay");
+            string endOfWordFromVowelOn = word.Substring(indexOfVowel + 1);
+            string pigWord;
+
+            if (char.IsUpper(frontOfWord[0]))
+                endOfWordFromVowelOn = char.ToUpper(word[indexOfVowel]) + endOfWordFromVowelOn;
+
+            pigWord = endOfWordFromVowelOn + termToAdd;
+            
+            return pigWord;
+        }
+
+        public static string TranslateSentence(string sentence)
+        {
+            sentence = sentence.Replace(".", "");
+            string[] words = sentence.Split(' ');
+            string pigSentence = "";
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                pigSentence += TranslateWord(words[i]) + " ";
+            }
+            return pigSentence.Trim() + ".";
+        }
     }
 }

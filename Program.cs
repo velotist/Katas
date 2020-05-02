@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Katas
 {
@@ -77,7 +78,29 @@ namespace Katas
             //Console.WriteLine(AllMethods.Trouble(888, 888));
             //Console.WriteLine(AllMethods.IsValidPhoneNumber("-123) 323-4455"));
             //Console.WriteLine(AllMethods.LongestCommonEnding("pitiful", "beautiful"));
-            
+            //Console.WriteLine(AllMethods.ReversedBinaryInteger(776));
+            //Console.WriteLine(AllMethods.ConvertTime("12:00 am"));
+            //Console.WriteLine(AllMethods.IsParselTongue("You ssseldom sssspeak sso boldly, ssso messmerizingly."));
+            //Console.WriteLine(AllMethods.Mangle("Should we start class now, or should we wait for everyone to get here?"));
+            //int[] array = AllMethods.RemoveSmallest(new int[] { 1, 2, 3, 4, 5 });
+            //foreach (var item in array)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            //Console.WriteLine(AllMethods.TextToNumberBinary("one Zero zero one zero zero one one one one one zero oNe one one zero one zerO"));
+            //Console.WriteLine(AllMethods.MinTurns("4587","4321"));
+            //Console.WriteLine(AllMethods.ToSnakeCase("helloEdabit"));
+            //Console.WriteLine(AllMethods.ToCamelCase("hello_edabit"));
+            //Console.WriteLine(AllMethods.AverageWordLength("Adsfsd, sdfsdfB C"));
+            //Console.WriteLine(AllMethods.WeekdayRobWasBornInDutch(1945, 9, 2));
+            //Console.WriteLine(AllMethods.IsValidIP("123.045.067.089"));
+            //Console.WriteLine(AllMethods.FirstIndex("74 68 65 20 6e 65 65 64 6c 65 20 69 73 20 74 6f 20 62 65 20 66 6f 75 6e 64", "needle"));
+            //Console.WriteLine(AllMethods.ValidatePassword("Fhg93@"));
+            //Console.WriteLine(AllMethods.LandscapeType(new int[] { 3, 4, 5, 4, 3 }));
+            //Console.WriteLine(AllMethods.Remainder(1,3));
+            //Console.WriteLine(AllMethods.ValidName("H. g. Wells"));
+            Console.WriteLine(AllMethods.TranslateWord("Cat"));
+            Console.WriteLine(AllMethods.TranslateSentence("I like to eat honey waffles."));
         }
     }
 }
