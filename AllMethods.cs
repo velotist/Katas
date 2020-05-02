@@ -1039,46 +1039,24 @@ namespace Katas
             return true;
         }
 
-        public static string TranslateWord(string word)
+        public static bool SameLetterPattern(string str1, string str2)
         {
-            int indexOfVowel = 0;
+            int[] array = new int[str1.Length];
 
-            if (char.ToLower(word[0]) == 'a' || char.ToLower(word[0]) == 'e' || char.ToLower(word[0]) == 'i' || char.ToLower(word[0]) == 'o' || char.ToLower(word[0]) == 'u')
-                return word + "yay";
-
-            for (int i = 0; i < word.Length; i++)
+            for (int i = 0; i < str1.Length; i++)
             {
-                if (word[i] == 'a' || word[i] == 'e' || word[i] == 'i' || word[i] == 'o' || word[i] == 'u')
-                {
-                    indexOfVowel = i;
-                    break;
-                }
+                array[i] = (int)str1[i] - (int)str2[i];
             }
 
-            string frontOfWord = word.Substring(0, 0 + indexOfVowel);
-            string termToAdd = (frontOfWord.ToLower() + "ay");
-            string endOfWordFromVowelOn = word.Substring(indexOfVowel + 1);
-            string pigWord;
-
-            if (char.IsUpper(frontOfWord[0]))
-                endOfWordFromVowelOn = char.ToUpper(word[indexOfVowel]) + endOfWordFromVowelOn;
-
-            pigWord = endOfWordFromVowelOn + termToAdd;
-            
-            return pigWord;
-        }
-
-        public static string TranslateSentence(string sentence)
-        {
-            sentence = sentence.Replace(".", "");
-            string[] words = sentence.Split(' ');
-            string pigSentence = "";
-
-            for (int i = 0; i < words.Length; i++)
+            for (int i = 0; i < array.Length - 1; i++)
             {
-                pigSentence += TranslateWord(words[i]) + " ";
+                if (array[i] == array[i + 1])
+                    continue;
+                else
+                    return false;
             }
-            return pigSentence.Trim() + ".";
+
+            return true;
         }
     }
 }

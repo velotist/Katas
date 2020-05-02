@@ -99,8 +99,7 @@ namespace Katas
             //Console.WriteLine(AllMethods.LandscapeType(new int[] { 3, 4, 5, 4, 3 }));
             //Console.WriteLine(AllMethods.Remainder(1,3));
             //Console.WriteLine(AllMethods.ValidName("H. g. Wells"));
-            Console.WriteLine(AllMethods.TranslateWord("Cat"));
-            Console.WriteLine(AllMethods.TranslateSentence("I like to eat honey waffles."));
+            Console.WriteLine(AllMethods.SameLetterPattern("ACAB", "CDCD"));
         }
     }
 }
