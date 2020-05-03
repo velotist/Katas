@@ -100,7 +100,8 @@ namespace Katas
             //Console.WriteLine(AllMethods.Remainder(1,3));
             //Console.WriteLine(AllMethods.ValidName("H. g. Wells"));
             var allmethods = new AllMethods();
-            Console.WriteLine(allmethods.SameLetterPattern("ACAB", "CDCD"));
+            //Console.WriteLine(allmethods.SameLetterPattern("ACAB", "CDCD"));
+            Console.WriteLine(allmethods.MysteryFunc(149));
         }
     }
 }
