@@ -99,7 +99,8 @@ namespace Katas
             //Console.WriteLine(AllMethods.LandscapeType(new int[] { 3, 4, 5, 4, 3 }));
             //Console.WriteLine(AllMethods.Remainder(1,3));
             //Console.WriteLine(AllMethods.ValidName("H. g. Wells"));
-            Console.WriteLine(AllMethods.SameLetterPattern("ACAB", "CDCD"));
+            var allmethods = new AllMethods();
+            Console.WriteLine(allmethods.SameLetterPattern("ACAB", "CDCD"));
         }
     }
 }

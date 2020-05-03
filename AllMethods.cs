@@ -1039,7 +1039,7 @@ namespace Katas
             return true;
         }
 
-        public static bool SameLetterPattern(string str1, string str2)
+        public bool SameLetterPattern(string str1, string str2)
         {
             int[] array = new int[str1.Length];
 
