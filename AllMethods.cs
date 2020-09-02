@@ -11,6 +11,26 @@ namespace Katas
 {
     public static class AllMethods
     {
+        public static (int,int)? IsPerfectPower(int n)
+        {
+            int[] result = new int[2];
+            int potenceResult = 0;
+
+            for (int k = 2; k < n; k++)
+            {
+                for (int m = 2; m < n; m++)
+                {
+                    potenceResult = (int)Math.Pow(k, m);
+                    if (potenceResult == n)
+                    {
+                        return (k,m)?;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public static int[] Snail(int[][] array)
         {
             int[] snailedArray = new int[(array.Length) * array.GetLength(0)];
@@ -45,7 +65,7 @@ namespace Katas
 
                 for (int i = 1; i < array.Length - 1; i++)
                 {
-                    snailedArray[index] = array[array.Length - 3][i];
+                    snailedArray[index] = array[array.Length - 2][i];
                     index++;
                 }
 

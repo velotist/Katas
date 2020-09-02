@@ -108,12 +108,21 @@ namespace Katas
             //Console.WriteLine(AllMethods.Is_Dividable_By(45, 5, 15));
             //Console.WriteLine(AllMethods.Is_Dividable_By(4, 1, 4));
             //Console.WriteLine(AllMethods.Is_Dividable_By(15, -5, 3));
-            int[][] array = new int[][] {
-                new int[] { 1, 2, 3, 1 },
-                new int[] { 4, 5, 6, 4 },
-                new int[] { 7, 8, 9, 7 },
-                new int[] { 7, 8, 9, 7 }};
-            Console.WriteLine(AllMethods.Snail(array));
+            //int[][] array = new int[][] {
+            //    new int[] { 1, 2, 3, 1 },
+            //    new int[] { 4, 5, 6, 4 },
+            //    new int[] { 7, 8, 9, 7 },
+            //    new int[] { 7, 8, 9, 7 }};
+            //int[] result = AllMethods.Snail(array);
+            //foreach (var item in result)
+            //{
+            //    Console.Write(item + " ");
+            //}
+            int[] pair = AllMethods.IsPerfectPower(4);
+            if(pair == null)
+                Console.WriteLine("null");
+            else 
+                Console.WriteLine(pair[0] + "   " + pair[1]);
         }
     }
 }
