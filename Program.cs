@@ -99,9 +99,21 @@ namespace Katas
             //Console.WriteLine(AllMethods.LandscapeType(new int[] { 3, 4, 5, 4, 3 }));
             //Console.WriteLine(AllMethods.Remainder(1,3));
             //Console.WriteLine(AllMethods.ValidName("H. g. Wells"));
-            var allmethods = new AllMethods();
-            //Console.WriteLine(allmethods.SameLetterPattern("ACAB", "CDCD"));
-            Console.WriteLine(allmethods.MysteryFunc(149));
+            //Console.WriteLine(AllMethods.SameLetterPattern("ACAB", "CDCD"));
+            //Console.WriteLine(Allmethods.MysteryFunc(149));
+            //Console.WriteLine(Allmethods.WurstIsBetter("Il n’arrête pas de faire l’andouille"));
+            //Console.WriteLine(AllMethods.Is_Dividable_By(-12, 2, -6));
+            //Console.WriteLine(AllMethods.Is_Dividable_By(-12, 2, -5));
+            //Console.WriteLine(AllMethods.Is_Dividable_By(45, 1, 6));
+            //Console.WriteLine(AllMethods.Is_Dividable_By(45, 5, 15));
+            //Console.WriteLine(AllMethods.Is_Dividable_By(4, 1, 4));
+            //Console.WriteLine(AllMethods.Is_Dividable_By(15, -5, 3));
+            int[][] array = new int[][] {
+                new int[] { 1, 2, 3, 1 },
+                new int[] { 4, 5, 6, 4 },
+                new int[] { 7, 8, 9, 7 },
+                new int[] { 7, 8, 9, 7 }};
+            Console.WriteLine(AllMethods.Snail(array));
         }
     }
 }

@@ -9,8 +9,58 @@ using System.Text.RegularExpressions;
 
 namespace Katas
 {
-    public class AllMethods
+    public static class AllMethods
     {
+        public static int[] Snail(int[][] array)
+        {
+            int[] snailedArray = new int[(array.Length) * array.GetLength(0)];
+            int index = 0;
+
+
+            while (index < (array.Length * array.GetLength(0)))
+            {
+                for (int i = 0; i < array.GetLength(0); i++)
+                {
+                    snailedArray[index] = array[0][i];
+                    index++;
+                }
+
+                for (int i = 1; i < array.Length; i++)
+                {
+                    snailedArray[index] = array[i][array[0].Length - 1];
+                    index++;
+                }
+
+                for (int i = array.Length - 2; i >= 0; i--)
+                {
+                    snailedArray[index] = array[array[0].Length - 1][i];
+                    index++;
+                }
+
+                for (int i = array.Length - 2; i > 0; i--)
+                {
+                    snailedArray[index] = array[i][0];
+                    index++;
+                }
+
+                for (int i = 1; i < array.Length - 1; i++)
+                {
+                    snailedArray[index] = array[array.Length - 3][i];
+                    index++;
+                }
+
+
+            }
+
+
+            return snailedArray;
+        }
+
+        public static bool Is_Dividable_By(int number, int a, int b)
+        {
+            return (number % a == 0) && (number % b == 0);
+        }
+
         public static int Hammin(string str1, string str2)
         {
             int count = 0;
@@ -1039,7 +1089,7 @@ namespace Katas
             return true;
         }
 
-        public bool SameLetterPattern(string str1, string str2)
+        public static bool SameLetterPattern(string str1, string str2)
         {
             int[] array = new int[str1.Length];
 
@@ -1059,7 +1109,7 @@ namespace Katas
             return true;
         }
 
-        public int MysteryFunc(int num)
+        public static int MysteryFunc(int num)
         {
             // For detecting the length of the integer array to store each schleifedigit of the decimal number
             string number = num.ToString();
@@ -1072,7 +1122,7 @@ namespace Katas
             int index = 0;
 
             // Extract all the digits of the decimal number
-            while(num>0)
+            while (num > 0)
             {
                 digits[index++] = num % 10;
                 num = num / 10;
@@ -1085,7 +1135,20 @@ namespace Katas
                 reversed += digits[i].ToString();
             }
 
-            return Convert.ToInt32(number) - Convert.ToInt32(reversed)>0 ? Convert.ToInt32(number) - Convert.ToInt32(reversed) : 0;
+            return Convert.ToInt32(number) - Convert.ToInt32(reversed) > 0 ? Convert.ToInt32(number) - Convert.ToInt32(reversed) : 0;
         }
+
+        public static string WurstIsBetter(string str)
+        {
+            string[] sausages = new string[]
+            { "Kielbasa", "Chorizo", "Moronga", "Salami", "Sausage", "Andouille","Naem", "Merguez", "Gurka", "Snorkers", "Pepperoni"};
+            foreach (string sausage in sausages)
+            {
+                str = str.Replace(sausage, "Wurst");
+                str = str.Replace(sausage.ToLower(), "Wurst");
+            }
+            return str;
+        }
+
     }
 }
