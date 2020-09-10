@@ -1,9 +1,13 @@
-﻿using System;
+﻿//using NUnit.Framework;
+using NUnit.Framework;
+using NUnit.Framework.Constraints;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -11,19 +15,314 @@ namespace Katas
 {
     public static class AllMethods
     {
-        public static (int,int)? IsPerfectPower(int n)
+        public static string WhoIsWinner(List<string> piecesPositionList)
         {
-            int[] result = new int[2];
-            int potenceResult = 0;
+            string[] red = new string[] { };
+            string[] yellow = new string[] { };
+            foreach (var color in piecesPositionList)
+            {
+                if(color.Contains("yellow")) {
 
+                }
+            }
+
+            if (piecesPositionList.Count>=8)
+            {
+
+            }
+
+
+            return "Draw";
+        } 
+
+        public static ulong[] ProductFib(ulong prod)
+        {
+            List<ulong> fibonacciNumbers = new List<ulong>
+            {1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,1597,2584,4181,6765,10946,17711,28657,46368,
+             75025,121393,196418,317811,514229,832040,1346269,2178309,3524578,5702887,9227465,14930352,24157817,
+             39088169,63245986,102334155,165580141,267914296,433494437,701408733,1134903170,1836311903,2971215073,
+             4807526976,7778742049,12586269025,20365011074,32951280099,53316291173,86267571272,139583862445,225851433717,
+             365435296162,591286729879,956722026041,1548008755920,2504730781961,4052739537881,6557470319842,10610209857723,
+             17167680177565,27777890035288,44945570212853,72723460248141,117669030460994,190392490709135,308061521170129,
+             498454011879264,806515533049393,1304969544928650,2111485077978050,3416454622906700,5527939700884750,8944394323791460,
+             14472334024676200,23416728348467600,37889062373143900,61305790721611500,99194853094755400,160500643816367000,
+             259695496911122000,420196140727489000,679891637638612000,1100087778366100000,1779979416004710000,2880067194370810000,
+             4660046610375530000,7540113804746340000,12200160415121800000};
+            ulong[] productFib = new ulong[3];
+
+            for (int i = 1; i < fibonacciNumbers.Count - 1; i++)
+            {
+                if (fibonacciNumbers[i] * fibonacciNumbers[i + 1] == prod)
+                {
+                    productFib[0] = fibonacciNumbers[i];
+                    productFib[1] = fibonacciNumbers[i + 1];
+                    productFib[2] = 1;
+                    return productFib;
+                }
+                if(fibonacciNumbers[i] * fibonacciNumbers[i + 1] > prod)
+                {
+                    productFib[0] = fibonacciNumbers[i];
+                    productFib[1] = fibonacciNumbers[i + 1];
+                    productFib[2] = 0;
+                    return productFib;
+                }
+            }
+
+            return null;
+        }
+
+        // Series: 1 + 1/4 + 1/7 + 1/10 + 1/13 + 1/16 +...
+        public static string SeriesSum(int n)
+        {
+            double sum = 1;
+            double fraction = 0.0d;
+
+            if (n == 0)
+                return "0.00";
+
+            for (double i = 4; i < (n * 3); i += 3)
+            {
+                fraction = 1 / i;
+                sum += fraction;
+            }
+
+            return sum.ToString("F2");
+        }
+
+        public static string MazeRunner(int[,] maze, string[] directions)
+        {
+            int sizeOfArray = maze.GetLength(0);
+            int xAxisValue = 0;
+            int yAxisValue = 0;
+            bool startCoordinatesFound = false;
+
+            for (int yAxis = 0; yAxis < sizeOfArray; ++yAxis)
+            {
+                for (int xAxis = 0; xAxis < sizeOfArray; ++xAxis)
+                {
+                    if (maze[yAxis, xAxis].Equals(2))
+                    {
+                        xAxisValue = xAxis;
+                        yAxisValue = yAxis;
+                        startCoordinatesFound = true;
+                        break;
+                    }
+                }
+                if (startCoordinatesFound == true)
+                    break;
+            }
+
+            foreach (var direction in directions)
+            {
+                if (direction == "E")
+                    xAxisValue++;
+                if (direction == "W")
+                    xAxisValue--;
+                if (direction == "S")
+                    yAxisValue++;
+                if (direction == "N")
+                    yAxisValue--;
+                if (xAxisValue < 0 || xAxisValue >= sizeOfArray)
+                    return "Dead";
+                if (yAxisValue < 0 || yAxisValue >= sizeOfArray)
+                    return "Dead";
+                if (maze[yAxisValue, xAxisValue] == 1)
+                    return "Dead";
+                if (maze[yAxisValue, xAxisValue] == 3)
+                    return "Finish";
+            }
+
+            return "Lost";
+        }
+
+        public static long IpsBetween(string start, string end)
+        {
+            checked
+            {
+                var ip1Ar = start.Split('.').Select(x => byte.Parse(x)).ToArray();
+                var ip2Ar = end.Split('.').Select(x => byte.Parse(x)).ToArray();
+                long result = 0;
+                result += (ip2Ar[0] - ip1Ar[0]) * 256 * 256 * 256;
+                result += (ip2Ar[1] - ip1Ar[1]) * 256 * 256;
+                result += (ip2Ar[2] - ip1Ar[2]) * 256;
+                result += (ip2Ar[3] - ip1Ar[3]);
+                return result;
+            }
+        }
+
+        private static int AddressArea(int start)
+        {
+            return 255 - start;
+        }
+
+        private static string[] AddressToStringArray(string address)
+        {
+            string[] addressToStringArray = address.Split(".");
+
+            return addressToStringArray;
+        }
+
+        private static int[] AddressToIntArray(string[] array)
+        {
+            int[] addressInt = new int[4];
+            int index = 0;
+            foreach (var address in array)
+            {
+                addressInt[index] = Int32.Parse(array[index]);
+                index++;
+            }
+
+            return addressInt;
+        }
+
+        public static double Going(int n)
+        {
+            double s = 1;
+            for (int i = 2; i <= n; i++)
+            {
+                s = s / i + 1;
+            }
+            return (int)(s * 1000000) / 1000000.0;
+            //double result;
+            //double factorizedn = 0;
+            //const double fact = 1.0;
+
+            //if (n > 1)
+            //{
+            //    factorizedn = Factorize(n);
+            //}
+
+            //double savedResult = 1.0;
+            //double additionResult = 0;
+            //for (int i = 1; i <= n; i++)
+            //{
+            //    savedResult = fact * (savedResult * i);
+            //    additionResult += savedResult;
+            //}
+
+            //result = (1 / factorizedn) * (additionResult);
+
+            //return Truncate(result, 6);
+        }
+
+        private static double Truncate(double value, int precision)
+        {
+            double power = Math.Pow(10, precision);
+            return (double)(Math.Truncate(value * power) / power);
+        }
+
+        private static double Factorize(int n)
+        {
+            double factorizedn = 1.0;
+
+            for (int i = 2; i <= n; i++)
+            {
+                factorizedn *= i;
+            }
+
+            return factorizedn;
+        }
+
+        public static string ToUnderscore(int str)
+        {
+            return str.ToString();
+        }
+
+        public static string ToUnderscore(string str)
+        {
+            string[] split = Regex.Split(str, @"(?<!^)(?=[A-Z])");
+            string snakeCaseString = "";
+            string firstCharUpper;
+
+            foreach (var part in split)
+            {
+                firstCharUpper = part.First().ToString().ToLower() + part.Substring(1) + "_";
+                snakeCaseString += firstCharUpper;
+            }
+
+            return snakeCaseString.Remove(snakeCaseString.Length - 1, 1);
+        }
+
+        public static string MixedFraction(string s)
+        {
+            int[] integers = SplitString(s);
+            int denominator = integers[0];
+            int numerator = integers[1];
+            int divisionResult;
+
+            try
+            {
+                divisionResult = denominator / numerator;
+            }
+            catch (Exception)
+            {
+                throw new DivideByZeroException();
+            }
+
+            if (denominator == 0)
+                return "0";
+
+            if (denominator % numerator == 0)
+                return divisionResult.ToString();
+
+            int counter = 0;
+
+            if (divisionResult < 1)
+            {
+                int greatestCommonFactor = (FindGreatestCommonFactor(denominator, numerator));
+                return (denominator / greatestCommonFactor) + "/" + (numerator / greatestCommonFactor);
+            }
+
+            while ((counter * numerator) < denominator)
+            {
+                counter++;
+            }
+
+            counter--;
+
+            int rest = denominator - (counter * numerator);
+            if (rest < 0)
+                rest = rest * (-1);
+
+            int gcf = FindGreatestCommonFactor(rest, numerator);
+            if (gcf > 0)
+                rest = rest / gcf;
+
+            return counter + " " + rest + "/" + numerator / gcf;
+        }
+
+        private static int FindGreatestCommonFactor(int num1, int num2)
+        {
+            int gcf = 0;
+
+            for (int i = 1; i < num1; i++)
+            {
+                if (num1 % i == 0 && num2 % i == 0)
+                    gcf = i;
+            }
+
+            return gcf;
+        }
+
+        private static int[] SplitString(string s)
+        {
+            string[] splitted = s.Split("/");
+            int[] splittedIntegers = new int[2];
+            splittedIntegers[0] = Convert.ToInt32(splitted[0]);
+            splittedIntegers[1] = Convert.ToInt32(splitted[1]);
+
+            return splittedIntegers;
+        }
+
+        public static (int, int)? IsPerfectPower(int n)
+        {
             for (int k = 2; k < n; k++)
             {
                 for (int m = 2; m < n; m++)
                 {
-                    potenceResult = (int)Math.Pow(k, m);
-                    if (potenceResult == n)
+                    if ((int)Math.Pow(k, m) == n)
                     {
-                        return (k,m)?;
+                        return (k, m);
                     }
                 }
             }

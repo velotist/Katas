@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Katas
@@ -118,11 +119,43 @@ namespace Katas
             //{
             //    Console.Write(item + " ");
             //}
-            int[] pair = AllMethods.IsPerfectPower(4);
-            if(pair == null)
-                Console.WriteLine("null");
-            else 
-                Console.WriteLine(pair[0] + "   " + pair[1]);
+            //Console.WriteLine(AllMethods.MixedFraction("4/0"));
+            //Console.WriteLine(AllMethods.ToUnderscore(1));
+            //Console.WriteLine(AllMethods.ToUnderscore("this_is_snake_string"));
+            //Console.WriteLine(AllMethods.ToUnderscore("my3_code_is4_times_better"));
+            //Console.WriteLine(AllMethods.Going(10110));
+            //Console.WriteLine(AllMethods.IpsBetween("10.0.0.0","10.0.0.50"));
+            int[,] maze = new int[,] { { 1, 1, 1, 1, 1, 1, 1 },
+                                       { 1, 0, 0, 0, 0, 0, 3 },
+                                       { 1, 0, 1, 0, 1, 0, 1 },
+                                       { 0, 0, 1, 0, 0, 0, 1 },
+                                       { 1, 0, 1, 0, 1, 0, 1 },
+                                       { 1, 0, 0, 0, 0, 0, 1 },
+                                       { 1, 2, 1, 0, 1, 0, 1 } };
+
+            //string[] directions = new string[] { "N", "N", "N", "N", "N", "E", "E", "E", "E", "E" };
+            //string[] directions = new string[] { "N", "N", "N", "N", "N", "E", "E", "E", "E", "E" };
+            //string[] directions = new string[] { "N", "N", "N", "W", "W" };
+            //string[] directions = new string[] { "N", "N", "N", "N", "N", "E", "E", "S", "S", "S", "S", "S", "S" };
+            //Console.WriteLine(AllMethods.MazeRunner(maze, directions));
+            //Console.WriteLine(AllMethods.SeriesSum(9));
+            //ulong[] r = AllMethods.ProductFib(800);
+            //foreach (var item in r)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            List<string> myList = new List<string>()
+            {
+                "A_Red",
+                "B_Yellow",
+                "A_Red",
+                "B_Yellow",
+                "A_Red",
+                "B_Yellow",
+                "G_Red",
+                "B_Yellow"
+            };
+            Console.WriteLine(AllMethods.WhoIsWinner(myList));
         }
     }
 }
