@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Katas
 {
     public static class AllMethods
     {
+        private static readonly int currentInt;
+
         public static BigInteger[] Mixbonacci(string[] pattern, int length)
         {
             List<BigInteger> fibo = new List<BigInteger>() { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229, 832040, 1346269, 2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169, 63245986, 102334155 };
@@ -22,12 +21,13 @@ namespace Katas
             List<BigInteger> tetra = new List<BigInteger>() { 0, 0, 0, 1, 1, 2, 4, 8, 15, 29, 56, 108, 208, 401, 773, 1490, 2872, 5536, 10671, 20569, 39648, 76424, 147312, 283953, 547337, 1055026, 2033628, 3919944, 7555935, 14564533, 28074040, 54114452, 104308960, 201061985, 387559437, 747044834, 1439975216, 2775641472 };
 
             BigInteger[] result = new BigInteger[length];
-            int counter = 0;
+            int counter = -1;
 
             while (counter < length)
             {
                 foreach (var pat in pattern)
                 {
+                    counter++;
                     switch (pat)
                     {
                         case "fib":
@@ -52,7 +52,6 @@ namespace Katas
                             break;
                     }
                 }
-                counter++;
             }
 
             return result;
@@ -266,7 +265,7 @@ namespace Katas
 
                 for (int i = 1; i < array.Length - 1; i++)
                 {
-                    snailedArray[index] = array[array.Length - 2][i];
+                    snailedArray[index] = array[^2][i];
                     index++;
                 }
 
@@ -398,12 +397,12 @@ namespace Katas
 
         public static int Factorial(int num)
         {
-            int sum = 0, result = 0;
+            int result = 0;
 
             while (num > 0)
             {
-                sum = num * (num - 1);
-                result = result + sum;
+                int sum = num * (num - 1);
+                result += sum;
                 num--;
             }
 
@@ -552,9 +551,14 @@ namespace Katas
                     count++;
             int[] result = new int[count];
             count = 0;
-            foreach (object current in arr)
-                if (current is int)
-                    result[count++] = (int)current;
+            foreach (var current in from object current in arr
+                                    where current
+                                        is int @currentInt
+                                    select current)
+            {
+                result[count++] = @currentInt;
+            }
+
             return result;
         }
 
@@ -582,7 +586,7 @@ namespace Katas
 
             for (int i = 1; i <= n; i++)
             {
-                factorial = factorial * i;
+                factorial *= i;
             }
 
             return factorial;
@@ -663,7 +667,7 @@ namespace Katas
         {
             string[] array = phrase.Split(' ');
 
-            string lastString = array[array.Length - 1];
+            string lastString = array[^1];
 
             string stringWithoutLastString = "";
             for (int i = 0; i < array.Length - 1; i++)
@@ -709,7 +713,7 @@ namespace Katas
             {
                 digits[counter] = number % 10;
                 counter++;
-                number = number / 10;
+                number /= 10;
             }
 
             Array.Reverse(digits);
@@ -729,7 +733,7 @@ namespace Katas
         {
             string mysteryString = "";
 
-            for (int i = 0; i < str.Length - 1; i = i + 2)
+            for (int i = 0; i < str.Length - 1; i += 2)
             {
                 int number = Int32.Parse(str[i + 1].ToString());
 
@@ -1346,7 +1350,7 @@ namespace Katas
             while (num > 0)
             {
                 digits[index++] = num % 10;
-                num = num / 10;
+                num /= 10;
             }
 
             // For building the reversed decimal number of the given decimal number

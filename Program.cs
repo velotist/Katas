@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Numerics;
 
 namespace Katas
@@ -9,6 +7,10 @@ namespace Katas
     {
         static void Main(string[] args)
         {
+            if (args is null)
+            {
+                throw new ArgumentNullException(nameof(args));
+            }
             //Console.WriteLine(AllMethods.Hammin("accde", "abcde"));
             //Console.WriteLine(AllMethods.CountWords("Just an example here move along"));
             //Console.WriteLine(AllMethods.CharCount('a',"edabit"));
