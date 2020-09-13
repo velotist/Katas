@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,19 +12,219 @@ namespace Katas
 {
     public static class AllMethods
     {
-        public static (int,int)? IsPerfectPower(int n)
+        public static BigInteger[] Mixbonacci(string[] pattern, int length)
         {
-            int[] result = new int[2];
-            int potenceResult = 0;
+            List<BigInteger> fibo = new List<BigInteger>() { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229, 832040, 1346269, 2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169, 63245986, 102334155 };
+            List<BigInteger> pado = new List<BigInteger>() { 1, 0, 0, 1, 0, 1, 1, 1, 2, 2, 3, 4, 5, 7, 9, 12, 16, 21, 28, 37, 49, 65, 86, 114, 151, 200, 265, 351, 465, 616, 816, 1081, 1432, 1897, 2513, 3329, 4410, 5842, 7739, 10252, 13581, 17991, 23833, 31572, 41824, 55405, 73396, 97229, 128801, 170625 };
+            List<BigInteger> jaco = new List<BigInteger>() { 0, 1, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461, 10923, 21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203, 5592405, 11184811, 22369621, 44739243, 89478485, 178956971, 357913941, 715827883, 1431655765, 2863311531, 5726623061 };
+            List<BigInteger> pello = new List<BigInteger>() { 0, 1, 2, 5, 12, 29, 70, 169, 408, 985, 2378, 5741, 13860, 33461, 80782, 195025, 470832, 1136689, 2744210, 6625109, 15994428, 38613965, 93222358, 225058681, 543339720, 1311738121, 3166815962, 7645370045, 18457556052, 44560482149, 107578520350, 259717522849 };
+            List<BigInteger> tribo = new List<BigInteger>() { 0, 0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504, 927, 1705, 3136, 5768, 10609, 19513, 35890, 66012, 121415, 223317, 410744, 755476, 1389537, 2555757, 4700770, 8646064, 15902591, 29249425, 53798080, 98950096, 181997601, 334745777, 615693474, 1132436852 };
+            List<BigInteger> tetra = new List<BigInteger>() { 0, 0, 0, 1, 1, 2, 4, 8, 15, 29, 56, 108, 208, 401, 773, 1490, 2872, 5536, 10671, 20569, 39648, 76424, 147312, 283953, 547337, 1055026, 2033628, 3919944, 7555935, 14564533, 28074040, 54114452, 104308960, 201061985, 387559437, 747044834, 1439975216, 2775641472 };
 
-            for (int k = 2; k < n; k++)
+            BigInteger[] result = new BigInteger[length];
+            int counter = 0;
+
+            while (counter < length)
             {
-                for (int m = 2; m < n; m++)
+                foreach (var pat in pattern)
                 {
-                    potenceResult = (int)Math.Pow(k, m);
-                    if (potenceResult == n)
+                    switch (pat)
                     {
-                        return (k,m)?;
+                        case "fib":
+                            result[counter] = fibo[counter];
+                            break;
+                        case "pad":
+                            result[counter] = pado[counter];
+                            break;
+                        case "jac":
+                            result[counter] = jaco[counter];
+                            break;
+                        case "pel":
+                            result[counter] = pello[counter];
+                            break;
+                        case "tri":
+                            result[counter] = tribo[counter];
+                            break;
+                        case "tet":
+                            result[counter] = tetra[counter];
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                counter++;
+            }
+
+            return result;
+        }
+
+        public static List<string> GetPINs(string observed)
+        {
+            List<string> possiblePins = new List<string>();
+            List<List<int>> possibleNumbersOfDigit = new List<List<int>>();
+
+            int numbersOfPin = GetNumbersFromPin(observed);
+
+            IEnumerable<int> digitsOfPin = GetDigits(numbersOfPin);
+            digitsOfPin = digitsOfPin.Reverse();
+
+            foreach (var digit in digitsOfPin)
+            {
+                possibleNumbersOfDigit.Add(CheckFieldsNearNumber(digit));
+            }
+
+            foreach (List<int> subList in possibleNumbersOfDigit)
+            {
+                foreach (var item in subList)
+                {
+                    possiblePins.Add(item.ToString());
+                }
+            }
+
+            return possiblePins;
+        }
+
+        private static List<int> CheckFieldsNearNumber(int number)
+        {
+            List<int> possibleNumbers = new List<int>();
+
+            if (number == 0)
+            {
+                possibleNumbers.Add(8);
+            }
+
+            if (number == 1)
+            {
+                possibleNumbers.Add(2);
+                possibleNumbers.Add(4);
+            }
+
+            if (number == 2)
+            {
+                possibleNumbers.Add(1);
+                possibleNumbers.Add(3);
+                possibleNumbers.Add(5);
+            }
+
+            if (number == 3)
+            {
+                possibleNumbers.Add(2);
+                possibleNumbers.Add(6);
+            }
+
+            if (number == 4)
+            {
+                possibleNumbers.Add(1);
+                possibleNumbers.Add(5);
+                possibleNumbers.Add(7);
+            }
+
+            if (number == 5)
+            {
+                possibleNumbers.Add(2);
+                possibleNumbers.Add(4);
+                possibleNumbers.Add(6);
+                possibleNumbers.Add(8);
+            }
+
+            if (number == 6)
+            {
+                possibleNumbers.Add(3);
+                possibleNumbers.Add(5);
+                possibleNumbers.Add(9);
+            }
+
+            if (number == 7)
+            {
+                possibleNumbers.Add(4);
+                possibleNumbers.Add(8);
+            }
+
+            if (number == 8)
+            {
+                possibleNumbers.Add(5);
+                possibleNumbers.Add(7);
+                possibleNumbers.Add(9);
+                possibleNumbers.Add(0);
+            }
+
+            if (number == 9)
+            {
+                possibleNumbers.Add(6);
+                possibleNumbers.Add(8);
+            }
+
+            return possibleNumbers;
+        }
+
+        private static int GetNumbersFromPin(string observed)
+        {
+            int numbersOfPin;
+
+            try
+            {
+                int.TryParse(observed, out numbersOfPin);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return numbersOfPin;
+        }
+
+        public static IEnumerable<int> GetDigits(int source)
+        {
+            while (source > 0)
+            {
+                var digit = source % 10;
+                source /= 10;
+                yield return digit;
+            }
+        }
+
+        public static string Buddy(long start, long limit)
+        {
+            while (start < limit)
+            {
+                start++;
+                long firstSum = GetSumOfDivisors(start, limit);
+                long secondSum = GetSumOfDivisors(start, limit);
+
+                if (firstSum + 1 == secondSum + 1)
+                {
+                    return string.Format("[{0}, {1}]", firstSum.ToString(), secondSum.ToString());
+                }
+            }
+
+            return "Nothing";
+        }
+
+        private static long GetSumOfDivisors(long start, long limit)
+        {
+            long sum = 0;
+
+            for (long i = start; i <= limit; i++)
+            {
+                if (start % i == 0)
+                {
+                    sum += i;
+                }
+            }
+
+            return sum;
+        }
+
+        public static (int, int)? IsPerfectPower(int n)
+        {
+            var half = (int)Math.Sqrt(n);
+            for (int k = 2; k <= half; k++)
+            {
+                for (int m = 2; m < n - 1; m++)
+                {
+                    if ((int)Math.Pow(k, m) == n)
+                    {
+                        return (k, m);
                     }
                 }
             }

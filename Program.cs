@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Numerics;
 
 namespace Katas
 {
@@ -118,11 +120,18 @@ namespace Katas
             //{
             //    Console.Write(item + " ");
             //}
-            int[] pair = AllMethods.IsPerfectPower(4);
-            if(pair == null)
-                Console.WriteLine("null");
-            else 
-                Console.WriteLine(pair[0] + "   " + pair[1]);
+            //Console.WriteLine(AllMethods.IsPerfectPower(4));
+            //Console.WriteLine(AllMethods.Buddy(10, 50));
+            //List<string> pinVariations = AllMethods.GetPINs("10");
+            //foreach (var pin in pinVariations)
+            //{
+            //    Console.Write(pin + " ");
+            //}
+            BigInteger[] result = AllMethods.Mixbonacci(new string[] { "jac", "jac", "pel" }, 10);
+            foreach (var item in result)
+            {
+                Console.Write(item + " ");
+            }
         }
     }
 }
