@@ -9,7 +9,75 @@ namespace Katas
 {
     public static class AllMethods
     {
-        private static readonly int currentInt;
+        public static int[] ArrayDiff(int[] a, int[] b)
+        {
+            List<int> list = CompareLists(a, b);
+
+            return list.ToArray();
+        }
+
+        private static List<int> CompareLists(int[] a, int[] b)
+        {
+            List<int> list = new List<int>();
+
+            foreach (var itemListA in a)
+            {
+                foreach (var itemListB in b)
+                {
+                    if (itemListA != itemListB)
+                        list.Add(itemListA);
+                }
+            }
+
+            return list;
+        }
+
+        public static long RowSumOddNumbers(long number)
+        {
+            return number * number * number;
+        }
+
+        public static string DuplicateEncode(string word)
+        {
+            word = word.ToLower();
+            char[] charsOfWord = word.ToCharArray();
+            string newWord = "";
+
+            for (int i = 0; i < charsOfWord.Length; i++)
+            {
+                if (FindIfDuplicate(charsOfWord[i], word))
+                    newWord += ')';
+                else
+                    newWord += '(';
+            }
+
+            return newWord;
+        }
+
+        private static bool FindIfDuplicate(char v, string word)
+        {
+            int count = 0;
+            foreach (var character in word)
+            {
+                if (character == v)
+                    count++;
+            }
+
+            return count > 1;
+        }
+
+        public static string SongDecoder(string input)
+        {
+            string songName;
+            string testName = Regex.Replace(input, "WUB{2,}", " ");
+            Console.WriteLine(testName);
+            songName = input.Replace("WUB", " ");
+            songName = Regex.Replace(songName, " {2,}", " ");
+
+            return songName.Trim();
+        }
+
+        public static int CurrentInt { get; }
 
         public static BigInteger[] Mixbonacci(string[] pattern, int length)
         {
@@ -21,36 +89,46 @@ namespace Katas
             List<BigInteger> tetra = new List<BigInteger>() { 0, 0, 0, 1, 1, 2, 4, 8, 15, 29, 56, 108, 208, 401, 773, 1490, 2872, 5536, 10671, 20569, 39648, 76424, 147312, 283953, 547337, 1055026, 2033628, 3919944, 7555935, 14564533, 28074040, 54114452, 104308960, 201061985, 387559437, 747044834, 1439975216, 2775641472 };
 
             BigInteger[] result = new BigInteger[length];
-            int counter = -1;
+            int counter = 0;
+            int indexFib = 0, indexPad = 0, indexJac = 0, indexPel = 0, indexTri = 0, indexTet = 0;
 
             while (counter < length)
             {
                 foreach (var pat in pattern)
                 {
-                    counter++;
+                    if (counter >= length)
+                        break;
                     switch (pat)
                     {
                         case "fib":
-                            result[counter] = fibo[counter];
+                            result[counter] = fibo[indexFib];
+                            indexFib++;
                             break;
                         case "pad":
-                            result[counter] = pado[counter];
+                            result[counter] = pado[indexPad];
+                            indexPad++;
                             break;
                         case "jac":
-                            result[counter] = jaco[counter];
+                            result[counter] = jaco[indexJac];
+                            indexJac++;
                             break;
                         case "pel":
-                            result[counter] = pello[counter];
+                            result[counter] = pello[indexPel];
+                            indexPel++;
                             break;
                         case "tri":
-                            result[counter] = tribo[counter];
+                            result[counter] = tribo[indexTri];
+                            indexTri++;
                             break;
                         case "tet":
-                            result[counter] = tetra[counter];
+                            result[counter] = tetra[indexTet];
+                            indexTet++;
                             break;
                         default:
                             break;
                     }
+
+                    counter++;
                 }
             }
 
@@ -556,7 +634,7 @@ namespace Katas
                                         is int @currentInt
                                     select current)
             {
-                result[count++] = @currentInt;
+                result[count++] = CurrentInt;
             }
 
             return result;
@@ -817,7 +895,7 @@ namespace Katas
 
         public static int DuplicateCount(string str)
         {
-            char[] array = str.ToCharArray();
+            char[] array = str.ToLower().ToCharArray();
             List<char> duplicates = new List<char>();
 
             for (int i = 0; i < str.Length - 1; i++)

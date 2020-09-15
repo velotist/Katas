@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Numerics;
 
 namespace Katas
@@ -129,10 +130,18 @@ namespace Katas
             //{
             //    Console.Write(pin + " ");
             //}
-            BigInteger[] result = AllMethods.Mixbonacci(new string[] { "jac", "jac", "pel" }, 10);
+            //BigInteger[] result = AllMethods.Mixbonacci(new string[] { "tet" }, 10);
+            //foreach (var item in result)
+            //{
+            //    Console.Write(item + " ");
+            //}
+            //Console.WriteLine(AllMethods.SongDecoder("WUBWUBABCWUB"));
+            //Console.WriteLine(AllMethods.DuplicateEncode("(( @"));
+            //Console.WriteLine(AllMethods.RowSumOddNumbers(42));
+            int[] result = AllMethods.ArrayDiff(new int[] { 1, 2, 2, 2, 3 }, new int[] { 2 });
             foreach (var item in result)
             {
-                Console.Write(item + " ");
+                Console.WriteLine(item);
             }
         }
     }
