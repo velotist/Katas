@@ -143,7 +143,16 @@ namespace Katas
             //{
             //    Console.WriteLine(item);
             //}
+            //string[] result = AllMethods.Dup(new string[] { "ccooddddddewwwaaaaarrrrsssss", "piccaninny", "hubbubbubboo" });
+            //foreach  (string word in result)
+            //{
+            //    Console.WriteLine(word);
+            //}
+            //Tuple<char?, int> result = AllMethods.LongestRepetition("aabb");
 
+            //Console.WriteLine(result.Item1);
+            //Console.WriteLine(result.Item2);
+            Console.WriteLine(AllMethods.DigitalRoot(345234));
         }
     }
 }

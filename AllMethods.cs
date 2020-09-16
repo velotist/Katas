@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
@@ -9,6 +10,109 @@ namespace Katas
 {
     public static class AllMethods
     {
+        public static int DigitalRoot(long n)
+        {
+            while (n >= 10)
+            {
+                n = CalculateSumOfDigits(n);
+            }
+
+            return (int)n;
+        }
+
+        private static long CalculateSumOfDigits(long n)
+        {
+            if (n == 0)
+                return 0;
+
+            return ((n % 10) + CalculateSumOfDigits(n / 10));
+        }
+
+        public static Tuple<char?, int> LongestRepetition(string input)
+        {
+            Tuple<char?, int> result = CountLongestDuplicateChar(input);
+
+            return result;
+        }
+
+        public static string[] Dup(string[] arr)
+        {
+            string[] result = new string[arr.Length];
+            int counter = 0;
+
+            foreach (var word in arr)
+            {
+                result[counter] = CheckForDuplicates(word.ToCharArray());
+                counter++;
+            }
+
+            return result;
+        }
+
+        private static Tuple<char?, int> CountLongestDuplicateChar(string word)
+        {
+            int n = word.Length;
+
+            if (n < 2)
+            {
+                return new Tuple<char?, int>(null, 0);
+            }
+
+            char rchar = word[0];
+            int rcount = 1;
+
+            int currentCount = 0;
+            char previousChar = char.MinValue;
+            foreach (char character in word)
+            {
+                if (character != previousChar)
+                {
+                    currentCount = 1;
+                }
+                else
+                {
+                    currentCount++;
+                }
+
+                if (currentCount > rcount)
+                {
+                    rchar = character;
+                    rcount = currentCount;
+                }
+
+                previousChar = character;
+            }
+
+            Tuple<char?, int> result = new Tuple<char?, int>(rchar, rcount);
+
+            return result;
+        }
+
+        private static string CheckForDuplicates(char[] word)
+        {
+            int n = word.Length;
+
+            if (n < 2)
+            {
+                return "";
+            }
+
+            int j = 0;
+
+            for (int i = 1; i < n; i++)
+            {
+                if (word[j] != word[i])
+                {
+                    j++;
+                    word[j] = word[i];
+                }
+            }
+            char[] result = new char[j + 1];
+            Array.Copy(word, 0, result, 0, j + 1);
+
+            return new string(result);
+        }
+
         public static int[] ArrayDiff(int[] a, int[] b)
         {
             if (a.Length == 0)
