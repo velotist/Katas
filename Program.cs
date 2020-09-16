@@ -138,11 +138,12 @@ namespace Katas
             //Console.WriteLine(AllMethods.SongDecoder("WUBWUBABCWUB"));
             //Console.WriteLine(AllMethods.DuplicateEncode("(( @"));
             //Console.WriteLine(AllMethods.RowSumOddNumbers(42));
-            int[] result = AllMethods.ArrayDiff(new int[] { 1, 2, 2, 2, 3 }, new int[] { 2 });
-            foreach (var item in result)
-            {
-                Console.WriteLine(item);
-            }
+            //int[] result = AllMethods.ArrayDiff(new int[] { 1, 2, 231312,4324324,124123,4324234 }, new int[] { 2,2,3,3,4324234,432432 });
+            //foreach (var item in result)
+            //{
+            //    Console.WriteLine(item);
+            //}
+
         }
     }
 }

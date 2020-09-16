@@ -11,25 +11,29 @@ namespace Katas
     {
         public static int[] ArrayDiff(int[] a, int[] b)
         {
-            List<int> list = CompareLists(a, b);
+            if (a.Length == 0)
+                return new int[] { };
+            if (b.Length == 0)
+                return a;
 
-            return list.ToArray();
+            return CompareLists(a, b);
         }
 
-        private static List<int> CompareLists(int[] a, int[] b)
+        private static int[] CompareLists(int[] a, int[] b)
         {
-            List<int> list = new List<int>();
+            if (b.Length > 1)
+                Array.Sort(b);
 
-            foreach (var itemListA in a)
+            List<int> listFroma = a.ToList();
+            List<int> distinct = b.Distinct().ToList();
+
+            foreach (var value in distinct)
             {
-                foreach (var itemListB in b)
-                {
-                    if (itemListA != itemListB)
-                        list.Add(itemListA);
-                }
+                if (listFroma.Contains(value))
+                    listFroma.RemoveAll(item => item == value);
             }
 
-            return list;
+            return listFroma.ToArray();
         }
 
         public static long RowSumOddNumbers(long number)
