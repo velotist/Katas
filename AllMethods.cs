@@ -12,6 +12,82 @@ namespace Katas
     {
         private static readonly int CurrentInteger;
 
+        //        '4556364607935616'                        = "############5616"
+        //        '64607935616'                             = "#######5616"
+        //        '1'                                       = "1"
+        //        ''                                        = ""
+        //        'Skippy'                                  = "##ippy"
+        //        'Nananananananananananananananana Batman!' = "####################################man!"
+
+        public static string Maskify(string cc)
+        {
+            var stringLength = cc.Length;
+            
+            if (stringLength <= 4)
+                return cc;
+
+            var endOfString = cc.Substring(stringLength - 4);
+            const string maskCharacter = "#";
+            var masked = new StringBuilder();
+
+            for (var i = 0; i < stringLength - 4; i++)
+            {
+                masked.Append(maskCharacter);
+            }
+
+            var result = masked + endOfString;
+
+            return result;
+        }
+
+        public static long Solve(long n)
+        {
+            for (var i = 1; i < n; i++)
+            {
+                if (Math.Sqrt((double)i * i + n) % 1 == 0)
+                    return (long)i * i;
+            }
+
+            return -1;
+        }
+
+        public static int MaxSequence(int[] arr)
+        {
+            var positiveNumbers = arr.Where(x => x > 0);
+            var negativeNumbers = arr.Where(x => x < 0);
+            var enumPositiveNumbers = positiveNumbers as int[] ?? positiveNumbers.ToArray();
+            var enumNegativeNumbers = negativeNumbers as int[] ?? negativeNumbers.ToArray();
+
+            if (enumPositiveNumbers.Count() == arr.Length)
+            {
+                return enumPositiveNumbers.Sum();
+            }
+            else if (enumNegativeNumbers.Count() == arr.Length)
+                return 0;
+
+            return FindMaxSumOfSubsequence(arr); ;
+        }
+
+        private static int FindMaxSumOfSubsequence(int[] arr)
+        {
+            var size = arr.Length;
+            int maxSoFar = int.MinValue,
+                maxEndingHere = 0;
+
+            for (var i = 0; i < size; i++)
+            {
+                maxEndingHere += arr[i];
+
+                if (maxSoFar < maxEndingHere)
+                    maxSoFar = maxEndingHere;
+
+                if (maxEndingHere < 0)
+                    maxEndingHere = 0;
+            }
+
+            return maxSoFar;
+        }
+
         public static int[] SortArray(int[] array)
         {
             if (array.Length == 0)
@@ -30,21 +106,35 @@ namespace Katas
             return array;
         }
 
+        //"1999" --> "20th"
+        //"2011" --> "21st"
+        //"2154" --> "22nd"
+        //"2259" --> "23rd"
+        //"1124" --> "12th"
+        //"2000" --> "20th"
+
         public static string WhatCentury(string year)
         {
-            var century = int.Parse(year.Substring(0, 2));
-            switch (century)
+            var century = int.Parse(year.Substring(0, 2)) + 1;
+            if (year.Substring(2, 2) == "00")
+                century = int.Parse(year.Substring(0, 2));
+
+            var firstDigitOfCentury = year.Substring(0, 1);
+            var lastDigitOfCentury = century % 10;
+
+            if (century == 11 || century == 12 || century == 13)
+                return century.ToString() + "th";
+
+            switch (lastDigitOfCentury)
             {
                 case 1:
-                    return "1st";
+                    return firstDigitOfCentury + "1st";
                 case 2:
-                    return "2nd";
+                    return firstDigitOfCentury + "2nd";
                 case 3:
-                    return "3rd";
-                case 21:
-                case 31:
+                    return firstDigitOfCentury + "3rd";
                 default:
-                    return (century + 1).ToString() + "th";
+                    return century.ToString() + "th";
             }
         }
 

@@ -154,12 +154,14 @@ namespace Katas
             //Console.WriteLine(AllMethods.Greet("JACK"));
             //Console.WriteLine(AllMethods.FindMissingLetter(new[] { 'a', 'b', 'c', 'd', 'f' }));
             //Console.WriteLine(AllMethods.Encode(10, "If you wish to make an apple pie from scratch, you must first invent the universe."));
-            //Console.WriteLine(AllMethods.WhatCentury("1999"));
-            var result = AllMethods.SortArray(new int[] { });
-            foreach (var value in result)
-            {
-                Console.Write(value);
-            }
+            //Console.WriteLine(AllMethods.WhatCentury("2099"));
+            //var result = AllMethods.SortArray(new int[] { });
+            //foreach (var value in result)
+            //{
+            //    Console.Write(value);
+            //}
+            //Console.WriteLine(AllMethods.MaxSequence(new int[] { -2, 1, -3, -4, -1, -2, -1, -5, -4 }));
+            Console.WriteLine(AllMethods.Maskify("1"));
         }
     }
 }
