@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Numerics;
 
 namespace Katas
 {
@@ -8,10 +6,8 @@ namespace Katas
     {
         static void Main(string[] args)
         {
-            if (args is null)
-            {
-                throw new ArgumentNullException(nameof(args));
-            }
+            if (args == null) throw new ArgumentNullException(nameof(args));
+
             //Console.WriteLine(AllMethods.Hammin("accde", "abcde"));
             //Console.WriteLine(AllMethods.CountWords("Just an example here move along"));
             //Console.WriteLine(AllMethods.CharCount('a',"edabit"));
@@ -149,10 +145,21 @@ namespace Katas
             //    Console.WriteLine(word);
             //}
             //Tuple<char?, int> result = AllMethods.LongestRepetition("aabb");
-
             //Console.WriteLine(result.Item1);
             //Console.WriteLine(result.Item2);
-            Console.WriteLine(AllMethods.DigitalRoot(345234));
+            //Console.WriteLine(AllMethods.DigitalRoot(345234));
+            //Console.WriteLine(AllMethods.Rot13("swZkkHx"));
+            //Console.WriteLine(AllMethods.SayMeOperations("10 2 5 -3 -15 12"));
+            //Console.WriteLine(AllMethods.Score(new int[] { 2, 2, 2, 2, 1 }));
+            //Console.WriteLine(AllMethods.Greet("JACK"));
+            //Console.WriteLine(AllMethods.FindMissingLetter(new[] { 'a', 'b', 'c', 'd', 'f' }));
+            //Console.WriteLine(AllMethods.Encode(10, "If you wish to make an apple pie from scratch, you must first invent the universe."));
+            //Console.WriteLine(AllMethods.WhatCentury("1999"));
+            var result = AllMethods.SortArray(new int[] { });
+            foreach (var value in result)
+            {
+                Console.Write(value);
+            }
         }
     }
 }

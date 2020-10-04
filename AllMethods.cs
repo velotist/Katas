@@ -1,15 +1,353 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Katas
 {
     public static class AllMethods
     {
+        private static readonly int CurrentInteger;
+
+        public static int[] SortArray(int[] array)
+        {
+            if (array.Length == 0)
+                return array;
+
+            var sortedOddNumbers = array.Where(number => number % 2 != 0).ToArray();
+            Array.Sort(sortedOddNumbers);
+
+            for (int i = 0, j = 0; i < array.Length; i++)
+            {
+                if (array[i] % 2 == 0) continue;
+                array[i] = sortedOddNumbers[j];
+                j++;
+            }
+
+            return array;
+        }
+
+        public static string WhatCentury(string year)
+        {
+            var century = int.Parse(year.Substring(0, 2));
+            switch (century)
+            {
+                case 1:
+                    return "1st";
+                case 2:
+                    return "2nd";
+                case 3:
+                    return "3rd";
+                case 21:
+                case 31:
+                default:
+                    return (century + 1).ToString() + "th";
+            }
+        }
+
+        public static string Encode(int n, string s)
+        {
+            var result = s;
+
+            for (var i = 0; i < n; i++)
+            {
+                var indexOfWhiteSpaces = LocateAllWhiteSpaces(result);
+                result = DeleteWhiteSpaces(result);
+
+                result = ShiftCharactersNTimesRight(result, n);
+
+                result = PutInWhiteSpaces(result, indexOfWhiteSpaces);
+
+                var eachWord = result.Split(" ");
+                result = ShiftEachSubstringNTimes(eachWord, n);
+            }
+
+            return n.ToString() + " " + result;
+        }
+
+        public static string Decode(string s)
+        {
+            var n = Convert.ToInt32(s.Substring(0, s.IndexOf(" ", StringComparison.Ordinal)));
+            var result = s.Substring(s.IndexOf(" ", StringComparison.Ordinal) + 1);
+
+            for (var i = 0; i < n; i++)
+            {
+                var eachWord = result.Split(" ");
+                result = ShiftEachSubstringNTimes(eachWord, n);
+
+                var indexOfWhiteSpaces = LocateAllWhiteSpaces(result);
+                result = DeleteWhiteSpaces(result);
+
+                result = ShiftCharactersNTimesLeft(result, n);
+
+                result = PutInWhiteSpaces(result, indexOfWhiteSpaces);
+            }
+
+            return result;
+        }
+
+        private static string ShiftEachSubstringNTimes(IEnumerable<string> eachWord, int n)
+        {
+            var result = "";
+
+            foreach (var word in eachWord)
+            {
+                result += ShiftWordNTimes(word, n) + " ";
+            }
+
+            return result.Trim();
+        }
+
+        private static string ShiftWordNTimes(string word, int index)
+        {
+            if (word.Length == 0)
+                return word;
+
+            index %= word.Length;
+
+            return word.Substring(word.Length - index) + word.Substring(0, word.Length - index);
+        }
+
+        private static string PutInWhiteSpaces(string result, IEnumerable<int> indexOfWhiteSpaces)
+        {
+            var ofWhiteSpaces = indexOfWhiteSpaces.ToList();
+
+            return ofWhiteSpaces.Aggregate(result, (current, t) => current.Insert(t, " "));
+        }
+
+        private static string ShiftCharactersNTimesLeft(string result, int n)
+        {
+            if (result.Length == 0)
+                return result;
+            n %= result.Length;
+
+            return result.Substring(n) + result.Substring(0, n);
+        }
+
+        private static string ShiftCharactersNTimesRight(string text, int n)
+        {
+            var endOfTextToFront = text.Substring(text.Length - n);
+            var frontOfText = text.Substring(0, text.Length - n);
+
+            return endOfTextToFront + frontOfText;
+        }
+
+        private static string DeleteWhiteSpaces(string text)
+        {
+            return new string(text.ToCharArray()
+                .Where(c => !char.IsWhiteSpace(c))
+                .ToArray());
+        }
+
+        private static IEnumerable<int> LocateAllWhiteSpaces(string text)
+        {
+            var indexOfWhiteSpaces = new List<int>();
+            var at = 0;
+            var end = text.Length;
+            var start = 0;
+
+            while ((start <= end) && (at > -1))
+            {
+                var count = end - start;
+                at = text.IndexOf(" ", start, count, StringComparison.Ordinal);
+                if (at == -1)
+                    break;
+                indexOfWhiteSpaces.Add(at);
+                start = at + 1;
+            }
+
+            return indexOfWhiteSpaces;
+        }
+
+        public static char FindMissingLetter(char[] array)
+        {
+            for (var i = 0; i < array.Length; i++)
+            {
+                if (array[i] + 1 != array[i + 1])
+                {
+                    return ((char)(array[i] + 1));
+                }
+            }
+
+            return ' ';
+        }
+
+        public static string Greet(string name)
+        {
+            StringBuilder greet = new StringBuilder();
+
+            _ = greet.Append("Hello ");
+            _ = greet.Append(name[0].ToString().ToUpper());
+
+            for (int i = 1; i < name.Length; i++)
+            {
+                _ = greet.Append(name[i].ToString().ToLower());
+            }
+
+            _ = greet.Append("!");
+
+            return greet.ToString();
+        }
+
+        public static int Score(int[] dice)
+        {
+            int[,] dices = FindOccurrenceOfEyes(dice);
+            int score = GetPoints(dices);
+
+            return score;
+        }
+
+        public static int[,] FindOccurrenceOfEyes(int[] numberOfDice)
+        {
+            int[,] occurrences = new int[6, 2];
+
+            int numbersOccurrenceOf1 = numberOfDice.Count(s => s == 1);
+            int numbersOccurrenceOf2 = numberOfDice.Count(s => s == 2);
+            int numbersOccurrenceOf3 = numberOfDice.Count(s => s == 3);
+            int numbersOccurrenceOf4 = numberOfDice.Count(s => s == 4);
+            int numbersOccurrenceOf5 = numberOfDice.Count(s => s == 5);
+            int numbersOccurrenceOf6 = numberOfDice.Count(s => s == 6);
+            occurrences[0, 0] = 1;
+            occurrences[0, 1] = numbersOccurrenceOf1;
+            occurrences[1, 0] = 2;
+            occurrences[1, 1] = numbersOccurrenceOf2;
+            occurrences[2, 0] = 3;
+            occurrences[2, 1] = numbersOccurrenceOf3;
+            occurrences[3, 0] = 4;
+            occurrences[3, 1] = numbersOccurrenceOf4;
+            occurrences[4, 0] = 5;
+            occurrences[4, 1] = numbersOccurrenceOf5;
+            occurrences[5, 0] = 6;
+            occurrences[5, 1] = numbersOccurrenceOf6;
+
+            return occurrences;
+        }
+
+        public static int GetPoints(int[,] occurrenceOfEyes)
+        {
+            int points = 0;
+
+            // Points for eyes 1
+            if (occurrenceOfEyes[0, 1] <= 2)
+            {
+                points += occurrenceOfEyes[0, 1] * 100;
+            }
+            // Points for triplets eyes 1
+            if (occurrenceOfEyes[0, 1] == 3)
+            {
+                points += 1000;
+            }
+            if (occurrenceOfEyes[0, 1] == 4)
+            {
+                points += 1100;
+            }
+            // Points for eyes 5
+            if (occurrenceOfEyes[4, 1] <= 2)
+            {
+                points += occurrenceOfEyes[4, 1] * 50;
+            }
+            if (occurrenceOfEyes[4, 1] == 4)
+            {
+                points += 200;
+            }
+
+            // Points for triplets of eye 2, 3, 4, 5, 6
+            for (int i = 1; i < 6; i++)
+            {
+                if (occurrenceOfEyes[i, 1] >= 3)
+                {
+                    points += occurrenceOfEyes[i, 0] * 100;
+                }
+            }
+
+            return points;
+        }
+
+        public static string SayMeOperations(string stringNumbers)
+        {
+            StringBuilder result = new StringBuilder();
+            List<String> list = stringNumbers.Split(" ").ToList();
+            List<int> listWithIntegers = new List<int>();
+
+            foreach (var item in list)
+            {
+                listWithIntegers.Add(int.Parse(item));
+            }
+
+            for (int i = listWithIntegers.Count - 1; i > 1; i--)
+            {
+                result.Append(WhichOperation(listWithIntegers[i], listWithIntegers[i - 2], listWithIntegers[i - 1]));
+                result.Append(", ");
+            }
+
+            listWithIntegers.Reverse();
+
+            result = result.Remove(result.Length - 2, 2);
+
+            return result.ToString().Trim();
+        }
+
+        private static string WhichOperation(int result, int number1, int number2)
+        {
+            if (number1 * number2 == result)
+                return "multiplication";
+            if (number1 + number2 == result)
+                return "addition";
+            if (number1 - number2 == result)
+                return "substraction";
+            if (number1 / number2 == result)
+                return "division";
+
+            return "";
+        }
+
+        public static string Rot13(string input)
+        {
+            char[] charactersOfInput = input.ToCharArray();
+            string rot13Result = "";
+
+            foreach (var character in charactersOfInput)
+            {
+                if ((character > 64 && character < 91) || (character > 96 && character < 123))
+                    rot13Result += Scramble(character);
+                else
+                    rot13Result += character;
+            }
+
+            return rot13Result;
+        }
+
+        private static string Scramble(char character)
+        {
+            int rot13;
+            int rest;
+
+            //if ((int)character == 78)
+            //    return "A";
+            //if ((int)character == 110)
+            //    return "a";
+            if (character > 77 && character < 91)
+            {
+                rest = 90 - character;
+                rot13 = 64 + (13 - rest);
+            }
+            else if (character > 109 && character < 123)
+            {
+                rest = 122 - character;
+                rot13 = 96 + (13 - rest);
+            }
+            else
+                rot13 = character + 13;
+
+
+            char rot13Character = (char)rot13;
+
+            return rot13Character.ToString();
+        }
+
         public static int DigitalRoot(long n)
         {
             while (n >= 10)
@@ -185,7 +523,7 @@ namespace Katas
             return songName.Trim();
         }
 
-        public static int CurrentInt { get; }
+        public static int CurrentInt => CurrentInteger;
 
         public static BigInteger[] Mixbonacci(string[] pattern, int length)
         {
@@ -232,8 +570,6 @@ namespace Katas
                             result[counter] = tetra[indexTet];
                             indexTet++;
                             break;
-                        default:
-                            break;
                     }
 
                     counter++;
@@ -243,14 +579,14 @@ namespace Katas
             return result;
         }
 
-        public static List<string> GetPINs(string observed)
+        private static List<string> GetPiNs(string observed)
         {
-            List<string> possiblePins = new List<string>();
-            List<List<int>> possibleNumbersOfDigit = new List<List<int>>();
+            var possiblePins = new List<string>();
+            var possibleNumbersOfDigit = new List<List<int>>();
 
-            int numbersOfPin = GetNumbersFromPin(observed);
+            var numbersOfPin = GetNumbersFromPin(observed);
 
-            IEnumerable<int> digitsOfPin = GetDigits(numbersOfPin);
+            var digitsOfPin = GetDigits(numbersOfPin);
             digitsOfPin = digitsOfPin.Reverse();
 
             foreach (var digit in digitsOfPin)
@@ -344,16 +680,7 @@ namespace Katas
 
         private static int GetNumbersFromPin(string observed)
         {
-            int numbersOfPin;
-
-            try
-            {
-                int.TryParse(observed, out numbersOfPin);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            int.TryParse(observed, out var numbersOfPin);
 
             return numbersOfPin;
         }
@@ -700,7 +1027,7 @@ namespace Katas
 
             for (int i = 0; i < array.Length; i++)
             {
-                if ((int)array[i] > 64 && (int)array[i] < 91 || (int)array[i] > 96 && (int)array[i] < 123)
+                if (array[i] > 64 && array[i] < 91 || array[i] > 96 && array[i] < 123)
                     filmName.Add(array[i]);
             }
 
@@ -722,11 +1049,11 @@ namespace Katas
         public static int CounterpartCharCode(char symbol)
         {
             if (!char.IsLetter(symbol))
-                return (int)symbol;
+                return symbol;
             if (char.IsUpper(symbol))
-                return (int)char.ToLower(symbol);
+                return char.ToLower(symbol);
             else
-                return (int)char.ToUpper(symbol);
+                return char.ToUpper(symbol);
         }
 
         public static int[] FilterArray(object[] arr)
@@ -784,7 +1111,7 @@ namespace Katas
                 return false;
             if (String.IsNullOrEmpty(str1) && String.IsNullOrEmpty(str2))
                 return true;
-            if (!str1.Substring(0, 1).Equals(str2.Substring(str2.Length - 1, 1)) || !str1.Substring(str1.Length - 1, 1).Equals(str2.Substring(0, 1)))
+            if (str2 != null && str1 != null && (!str1.Substring(0, 1).Equals(str2.Substring(str2.Length - 1, 1)) || !str1.Substring(str1.Length - 1, 1).Equals(str2.Substring(0, 1))))
                 return false;
 
             return true;
@@ -798,7 +1125,7 @@ namespace Katas
             return (decimal)Math.Round(Math.PI, n);
         }
 
-        public static bool XO(string str)
+        public static bool Xo(string str)
         {
             char[] array = str.ToCharArray();
             int xos = 0;
@@ -942,7 +1269,7 @@ namespace Katas
 
             for (int i = 0; i < array.Length; i++)
             {
-                arrayToAscii[i] = (int)array[i];
+                arrayToAscii[i] = array[i];
             }
 
             string hexCode = "";
@@ -1275,7 +1602,7 @@ namespace Katas
             if (values.Length == 0)
                 return values;
 
-            List<int> intList = ((int[])values).ToList();
+            List<int> intList = values.ToList();
 
             intList.RemoveAt(intList.IndexOf(intList.Min()));
 
@@ -1368,18 +1695,18 @@ namespace Katas
                         new CultureInfo("nl-NL"));
         }
 
-        public static bool IsValidIP(string IP)
+        public static bool IsValidIp(string ip)
         {
-            if (IP.Contains(" "))
+            if (ip.Contains(" "))
                 return false;
 
-            foreach (var character in IP)
+            foreach (var character in ip)
             {
                 if (char.IsLetter(character))
                     return false;
             }
 
-            string[] addresses = IP.Split('.');
+            string[] addresses = ip.Split('.');
 
             if (addresses.Length != 4)
                 return false;
@@ -1404,7 +1731,7 @@ namespace Katas
 
             foreach (var item in needle)
             {
-                ascii[i++] = (int)item;
+                ascii[i++] = item;
             }
 
             string[] hexToSearch = new string[needle.Length];
@@ -1447,7 +1774,7 @@ namespace Katas
             if (!regexItem.IsMatch(password))
                 return false;
 
-            if (password == null || password.Length < 6 || password.Length > 24)
+            if (password.Length < 6 || password.Length > 24)
                 return false;
 
             return true;
@@ -1459,12 +1786,12 @@ namespace Katas
             string str = "";
             for (int i = 0; i < arr.Length - 1; i++)
             {
-                int old_val = val;
+                int oldVal = val;
                 if (arr[i] > arr[i + 1])
                     val = 0;
                 if (arr[i] < arr[i + 1])
                     val = 1;
-                if (val != old_val)
+                if (val != oldVal)
                     str += val.ToString();
             }
             if (str == "10")
@@ -1506,12 +1833,13 @@ namespace Katas
 
             for (int i = 0; i < str1.Length; i++)
             {
-                array[i] = (int)str1[i] - (int)str2[i];
+                array[i] = str1[i] - str2[i];
             }
 
             for (int i = 0; i < array.Length - 1; i++)
             {
                 if (array[i] == array[i + 1])
+                    // ReSharper disable once RedundantJumpStatement
                     continue;
                 else
                     return false;
